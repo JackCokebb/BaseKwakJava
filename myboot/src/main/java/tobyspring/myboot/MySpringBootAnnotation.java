@@ -3,7 +3,8 @@ package tobyspring.myboot;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import tobyspring.config.Config;
+import tobyspring.config.autoconfig.DispatcherServletConfig;
+import tobyspring.config.autoconfig.TomcatWebServerConfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -27,6 +28,6 @@ TYPE : Class + Interface + Enum 이 대상이 됨
 @Target(ElementType.TYPE)
 @Configuration // 적용할 메타 애노태이션
 @ComponentScan // // 적용할 메타 애노태이션
-@Import(Config.class) // 스캔 대상 아니지만 직접 등록
+@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class}) // 스캔 대상 아니지만 직접 등록
 public @interface MySpringBootAnnotation {
 }

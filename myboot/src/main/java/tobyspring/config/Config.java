@@ -17,13 +17,4 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 public class Config {
 
-    @Bean
-    public ServletWebServerFactory servletWebServerFactory(){
-        return new TomcatServletWebServerFactory();
-    }
-
-    @Bean
-    public DispatcherServlet dispatcherServlet(){
-        return new DispatcherServlet();
-    }
 }

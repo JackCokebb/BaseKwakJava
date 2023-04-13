@@ -1,8 +1,9 @@
-package tobyspring.myboot;
+package tobyspring.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import tobyspring.config.EnableMyAutoConfiguration;
 import tobyspring.config.autoconfig.DispatcherServletConfig;
 import tobyspring.config.autoconfig.TomcatWebServerConfig;
 
@@ -24,10 +25,15 @@ TYPE : Class + Interface + Enum 이 대상이 됨
 @Component가(혹은 @Component가 붙은 어노테이션) 붙은 클래스들을 직접 추가 할 수 있음
  */
 
+
+/*
+순수한 애플리케이션 이랑 분리하기 위해 패키지 위치 바꿈
+ */
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Configuration // 적용할 메타 애노태이션
 @ComponentScan // // 적용할 메타 애노태이션
-@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class}) // 스캔 대상 아니지만 직접 등록
+@EnableMyAutoConfiguration // 직접 등록 할 빈 많으면 길어지니까 메타 어노테이션을 활용
 public @interface MySpringBootAnnotation {
 }

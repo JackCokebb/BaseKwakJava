@@ -8,8 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
 
-@Configuration
-@ComponentScan
+@MySpringBootAnnotation
 public class MybootApplication {
 
 	@Bean

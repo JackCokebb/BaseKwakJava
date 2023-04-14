@@ -1,4 +1,4 @@
-package tobyspring;
+package tobyspring.myboot;
 
 import org.junit.jupiter.api.Test;
 import tobyspring.myboot.HelloController;

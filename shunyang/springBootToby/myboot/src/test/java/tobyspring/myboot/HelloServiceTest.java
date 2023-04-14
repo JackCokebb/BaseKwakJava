@@ -1,8 +1,6 @@
-package tobyspring;
+package tobyspring.myboot;
 
 import org.junit.jupiter.api.Test;
-import tobyspring.myboot.HelloDecorator;
-import tobyspring.myboot.SimpleHelloService;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

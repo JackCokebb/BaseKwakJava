@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Configuration
+@Configuration(proxyBeanMethods = false)
 /*
 load를 통해 import 할때 파일 이름으로 사용
  */

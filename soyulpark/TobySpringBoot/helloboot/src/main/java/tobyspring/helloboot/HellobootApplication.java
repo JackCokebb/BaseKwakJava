@@ -20,21 +20,25 @@ public class HellobootApplication {
 
 	public static void main(String[] args) {
 		// 스프링 컨테이너 생성 Applicationcontext : application을 구성하는 정보(구성 빈, 리소스 접근 방법, 내부 이벤트 전달/구독 등) 이게 스프링 컨테이너가 된다
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		// object를 직접 넣어주기보단 어떤 class를 이용해서 bean object 를 생성할지 metadata 를 넣어줌
-		applicationContext.registerBean(HelloController.class); // bean 등록 (bean 클래스 지정)
-		applicationContext.registerBean(SimpleHelloService.class); // 정확히 어떤 class 로 bean 을 등록할지 적어줘야 함
-		applicationContext.refresh(); // applicationContext 가 bean object 를 다 만들어줌
+		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+			@Override
+			protected void onRefresh() {
+				super.onRefresh();
+				ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+				WebServer webServer = serverFactory.getWebServer(servletContext -> {
+					servletContext.addServlet("dispatcherServlet",
+							// dispatcher sevlet 생성
+							new DispatcherServlet(this)
+					).addMapping("/*");
+				});
+				webServer.start();
+			}
+		};
 
+		applicationContext.registerBean(HelloController.class);
+		applicationContext.registerBean(SimpleHelloService.class);
+		applicationContext.refresh();
 
-		ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-		WebServer webServer = serverFactory.getWebServer(servletContext -> {
-			servletContext.addServlet("dispatcherServlet",
-								// dispatcher sevlet 생성
-								new DispatcherServlet(applicationContext)
-					).addMapping("/*"); // < 모든 요청을 이 서블릿이 처리하겠다
-		});
-		webServer.start();
 	}
 
 }

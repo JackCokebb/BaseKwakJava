@@ -20,6 +20,7 @@ public class HellobootApplication {
 		GenericApplicationContext applicationContext = new GenericApplicationContext();
 		// object를 직접 넣어주기보단 어떤 class를 이용해서 bean object 를 생성할지 metadata 를 넣어줌
 		applicationContext.registerBean(HelloController.class); // bean 등록 (bean 클래스 지정)
+		applicationContext.registerBean(SimpleHelloService.class); // 정확히 어떤 class 로 bean 을 등록할지 적어줘야 함
 		applicationContext.refresh(); // applicationContext 가 bean object 를 다 만들어줌
 
 

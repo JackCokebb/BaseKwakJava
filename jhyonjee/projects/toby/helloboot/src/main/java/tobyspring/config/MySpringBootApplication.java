@@ -16,9 +16,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Configuration
 @ComponentScan
-// component annotation이 붙은, 혹은 그걸 메타 애너테이션 갖고있는 애너테이션이 붙은 클래스들을
-// Import를 이용해서 뒤에다 클래스 이름을 지정해주면 구성정보에 직접 추가할 수 있음 -> 메타 애너테이션으로써 동작하게됨
-//@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class}) -> 8. 계속 길어지니까 최상단에서는 보기 않조음 -> @EnableMyAutoConfiguration으로 래핑
 @EnableMyAutoConfiguration
 public @interface MySpringBootApplication {
 

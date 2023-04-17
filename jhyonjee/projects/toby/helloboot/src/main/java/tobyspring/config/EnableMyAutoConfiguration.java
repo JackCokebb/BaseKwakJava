@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class}) //@Import도 애너테이션의 메타 애너테이션으로 사용 가능
+//@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class})
+@Import(MyAutoConfigImportSelector.class) // MyAutoConfigImportSelector 이 안의 메소드를 실행시켜서 리턴받은 결과물들, string으로된 config class들만 로딩하도록 함
 public @interface EnableMyAutoConfiguration {
 }

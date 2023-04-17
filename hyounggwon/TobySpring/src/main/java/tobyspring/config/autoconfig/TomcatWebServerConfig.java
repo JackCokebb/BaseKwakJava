@@ -1,4 +1,4 @@
-package tobyspring.helloboot.config.autoconfig;
+package tobyspring.config.autoconfig;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;

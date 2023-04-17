@@ -1,10 +1,7 @@
-package tobyspring.helloboot;
+package tobyspring.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import tobyspring.helloboot.config.autoconfig.DispatcherServletConfig;
-import tobyspring.helloboot.config.autoconfig.TomcatWebServerConfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE) // class, interface, enum에게 지정 가능
 @Configuration
 @ComponentScan
-@Import({DispatcherServletConfig.class, TomcatWebServerConfig.class}) //@Component 붙은
+@EnableMyAutoConfiguration
 public @interface MySpringBootApplication {
 
 }

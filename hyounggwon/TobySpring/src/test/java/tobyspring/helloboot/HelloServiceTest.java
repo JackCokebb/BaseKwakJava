@@ -11,20 +11,6 @@ import java.lang.annotation.Target;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-@Test
-@interface FastUnitTest{
-
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
-@Test
-@interface UnitTest{
-
-}
-
 public class HelloServiceTest {
     @Test
     void simpleHelloService(){

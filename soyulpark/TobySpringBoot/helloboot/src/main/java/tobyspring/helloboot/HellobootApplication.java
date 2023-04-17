@@ -19,17 +19,20 @@ public class HellobootApplication {
 	public static void main(String[] args) {
 		ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		WebServer webServer = serverFactory.getWebServer(servletContext -> {
+			HelloController helloController = new HelloController();
 			servletContext.addServlet("frontcontroller", new HttpServlet() {
 				@Override
 				public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-					// 인증, 보안, 다국어, 공통 기능 등을 담당하는 프론트 컨트롤러
 					if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())){
 						String name = req.getParameter("name");
 
+						// hello controller로 return 값을 받아와서 body에 넣어줌
+						String ret = helloController.hello(name);
+
 						res.setStatus(HttpStatus.OK.value());
 						res.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-						res.getWriter().println("Hello " + name);
+						res.getWriter().println(ret);
 					} else if (req.getRequestURI().equals("/user")) {
 						//
 					} else {

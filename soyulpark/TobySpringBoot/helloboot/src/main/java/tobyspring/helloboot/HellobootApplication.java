@@ -23,10 +23,12 @@ public class HellobootApplication {
 				@Override
 				public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+					String name = req.getParameter("name");
+
 					// 웹 응답의 3가지 요소 (상태 코드, 헤더, 바디)
 					res.setStatus(HttpStatus.OK.value());
 					res.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-					res.getWriter().println("Hello Servlet");
+					res.getWriter().println("Hello " + name);
 
 				}
 			}).addMapping("/hello"); // < hello 라는 url로 들어오는 요청은 이 hello 서블릿이 처리하겠다

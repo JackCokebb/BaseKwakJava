@@ -9,16 +9,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-// 1. @Configuration을 메타 애너테이션으로 가지고 있으니 기존에 @Configuration을 붙이고 있던 애들한테 붙여줄 수 있겠지?
-// 4. 대신 @Configuration의 element 값을 변경해 줘야함
-//      proxyBeanMethods = false -> @MyAutoConfiguration이 붙어서 동적으로 로딩되는 config들은 기존에 썼던것처럼 그냥 @Configuration이 적용된것이 아니라
-//                                  proxyBeanMethods를 false로 바꾼 Configuration이 적용된다는  -> 근데 이게 뭔데??
+// 12. proxyBeanMethods = false로 했다는 것은 이 MyAutoConfiguration 밑에 있는 config들은 proxy로 만들어지지 않고 사용된다는 뜻
+//     @Configuration 안에 빈이 생성될때 주입되어야 할것이 업으면 주입할 오브젝트가 하나의 객체로 재사용되는지 확인할 필요 없게되고, 그럼 그걸 확인해주던 프록시도 필요 없게되는 것
 @Configuration(proxyBeanMethods = false)
 public @interface MyAutoConfiguration {
 
 }
-// 3. ...MyAutoConfiguration.imports 파일에 있는 config 파일들에는 @MyAutoConfiguration를 붙여주는것이 원칙 -> config class로 이동
 
-
-// 5. @Configuration이 붙은 클래스의 독특한 특징에 대해 이해할 필요가 있다
-//      우리가 직접 config class를 애플리케이션 코드에 넣고 원하는 빈을 등록할 일이 많다

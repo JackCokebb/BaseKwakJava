@@ -2,17 +2,21 @@ package tobyspring.study;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 public class ConfigurationTest {
     @Test
     void configuration(){
-        MyConfig myConfig = new MyConfig();
-        Bean1 bean1 = myConfig.bean1();
-        Bean2 bean2 = myConfig.bean2();
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
+        ac.register(MyConfig.class);
+        ac.refresh();
 
-        Assertions.assertThat(bean1.common).isSameAs(bean2.common); //fail
+        Bean1 bean1 = ac.getBean(Bean1.class);
+        Bean2 bean2 = ac.getBean(Bean2.class);
+
+        Assertions.assertThat(bean1.common).isSameAs(bean2.common); // pass
     }
 
     @Configuration

@@ -1,13 +1,12 @@
 package tobyspring.helloboot;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
-@RequestMapping("/hello")
-@MyComponent
+@RestController
 public class HelloController {
 
     // 직접 object 생성 > 생성자 파라미터로 주입 받는 코드
@@ -17,8 +16,7 @@ public class HelloController {
         this.helloService = helloService;
     }
 
-    @GetMapping()
-    @ResponseBody
+    @GetMapping("/hello")
     public String hello(String name) {
         // null 인지 체크해서 null 이면 예외를 던져줌
         return helloService.sayHello(Objects.requireNonNull(name));

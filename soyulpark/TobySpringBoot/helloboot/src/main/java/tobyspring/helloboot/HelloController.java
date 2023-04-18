@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Objects;
 
 @RequestMapping("/hello")
+@MyComponent
 public class HelloController {
 
     // 직접 object 생성 > 생성자 파라미터로 주입 받는 코드

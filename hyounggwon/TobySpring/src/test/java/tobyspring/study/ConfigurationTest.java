@@ -19,6 +19,26 @@ public class ConfigurationTest {
         Assertions.assertThat(bean1.common).isSameAs(bean2.common); // pass
     }
 
+    @Test
+    void proxyCommonMethod(){
+        MyConfigProxy myConfigProxy = new MyConfigProxy();
+
+        Bean1 bean1 = myConfigProxy.bean1();
+        Bean2 bean2 = myConfigProxy.bean2();
+
+        Assertions.assertThat(bean1.common).isSameAs(bean2.common); // pass
+    }
+
+    static class MyConfigProxy extends MyConfig{
+        private Common common;
+        @Override
+        Common common(){
+            if(this.common==null)
+                this.common = super.common();
+            return this.common;
+        }
+    }
+
     @Configuration
     static class MyConfig{
         @Bean

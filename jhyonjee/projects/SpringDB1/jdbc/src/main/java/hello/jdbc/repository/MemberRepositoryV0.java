@@ -16,7 +16,7 @@ public class MemberRepositoryV0 {
         String sql = "INSERT INTO member(member_id, money) VALUES (?, ?)"; // 데이터 등록
 
         Connection con = null;
-        PreparedStatement preparedStatement = null; // 이걸로 데이터베이스에 쿼리를 날리는 것 - 데이터로 전달한 SQL과 파라미터로 전달할 데이터들을 준비
+        PreparedStatement preparedStatement = null;
 
 
         try {
@@ -26,7 +26,7 @@ public class MemberRepositoryV0 {
             //sql 변수에 넣어줬던 동적 파라미터 지정 - 타입 주의!
             preparedStatement.setString(1, member.getMemberId());
             preparedStatement.setInt(2, member.getMoney());
-            preparedStatement.executeUpdate(); // 쿼리가 DB에 실행됨 -> DB에 영향받은 row 수만큼 return함 // DB에 변결할때 쓰는 executeUpdate
+            preparedStatement.executeUpdate();
 
             return member;
         } catch (SQLException e) {
@@ -34,7 +34,6 @@ public class MemberRepositoryV0 {
             throw e;
         }
         finally {
-            // close는 항상 호출되는 것을 보장하도록 finally에서 실행
             close(con, preparedStatement, null);
 
         }
@@ -43,7 +42,7 @@ public class MemberRepositoryV0 {
     public Member findById(String memberId) throws SQLException {
         String sql = "SELECT * FROM MEMBER WHERE member_id = ?";
 
-        Connection connection = null; // try-catch에서도 이 구분을 써야하기 떄문에 밖으로 빼줌
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         
@@ -52,14 +51,14 @@ public class MemberRepositoryV0 {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, memberId);
 
-            resultSet = preparedStatement.executeQuery(); // select문 쓸때는 executeQuery 사용 -> result set(select의 결과를 담고 있음) 반환
-            if(resultSet.next()){ // resultSet에 한번은 next를 해줘야 실제 데이터가 있는 시작점이 나옴
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
                 Member member = new Member();
                 member.setMemberId(resultSet.getString("member_id"));
                 member.setMoney(resultSet.getInt("money"));
                 return member;
             }
-            else{ //resultSet.next()가 false라는 것은 data가 없다는 뜻
+            else{
                 throw new NoSuchElementException("# member not found memberId = " + memberId);
             }
 
@@ -73,11 +72,54 @@ public class MemberRepositoryV0 {
 
     }
 
-    private void close(Connection con, Statement statement, ResultSet resultSet){
-        // 생성 역순으로 close
-        // 안닫으면 외부 리소스(tcp/ip)를 쓰는 중인데 계속 연결이 유지되어 버림 - 리소스
+    public void update(String memberId, int money) throws SQLException {
+        String sql = "UPDATE member SET money=? WHERE member_id=?";
 
-        // 코드의 안정성을 위해 if 문으로 감싸기
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, money);
+            preparedStatement.setString(2, memberId);
+
+            int resultSize = preparedStatement.executeUpdate(); //등록, 수정, 삭제처럼 데이터를 변경하는 쿼리는 executeUpdate()
+            log.info("# result size = {}", resultSize);
+
+        } catch (SQLException e) {
+            log.error("# prepareStatement ERROR - findById()");
+            throw e;
+        }
+        finally {
+            close(connection, preparedStatement, null);
+        }
+
+    }
+
+    public void delete(String memberId) throws SQLException {
+        String sql = "DELETE FROM member WHERE member_id=?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, memberId);
+
+            int resultSize = preparedStatement.executeUpdate(); //등록, 수정, 삭제처럼 데이터를 변경하는 쿼리는 executeUpdate()
+
+        } catch (SQLException e) {
+            log.error("# prepareStatement ERROR - findById()");
+            throw e;
+        }
+        finally {
+            close(connection, preparedStatement, null);
+        }
+    }
+
+    private void close(Connection con, Statement statement, ResultSet resultSet){
         if(resultSet != null){
             try {
                 resultSet.close();

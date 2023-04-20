@@ -2,7 +2,7 @@ package hello.jdbc.domain;
 
 import lombok.Data;
 
-@Data
+@Data //toString이 포함되어 있음
 public class Member {
     private String memberId;
     private int money;

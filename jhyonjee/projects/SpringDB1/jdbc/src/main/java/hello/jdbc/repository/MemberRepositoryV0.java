@@ -5,6 +5,7 @@ import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 /**
  *  JDBC - DriverManager 사용 (low level)
@@ -25,7 +26,7 @@ public class MemberRepositoryV0 {
             //sql 변수에 넣어줬던 동적 파라미터 지정 - 타입 주의!
             preparedStatement.setString(1, member.getMemberId());
             preparedStatement.setInt(2, member.getMoney());
-            preparedStatement.executeUpdate(); // 쿼리가 DB에 실행됨 -> DB에 영향받은 row 수만큼 return함
+            preparedStatement.executeUpdate(); // 쿼리가 DB에 실행됨 -> DB에 영향받은 row 수만큼 return함 // DB에 변결할때 쓰는 executeUpdate
 
             return member;
         } catch (SQLException e) {
@@ -33,17 +34,50 @@ public class MemberRepositoryV0 {
             throw e;
         }
         finally {
-            // 생성 역순으로 close
-            // 안닫으면 외부 리소스(tcp/ip)를 쓰는 중인데 계속 연결이 유지되어 버림 - 리소스
             // close는 항상 호출되는 것을 보장하도록 finally에서 실행
             close(con, preparedStatement, null);
 
         }
     }
-    private void close(Connection con, Statement statement, ResultSet resultSet){  // Statement : sql을 그대로 넣는 것, PreparedStatement : parameter를 binding할 수 있는 것
+
+    public Member findById(String memberId) throws SQLException {
+        String sql = "SELECT * FROM MEMBER WHERE member_id = ?";
+
+        Connection connection = null; // try-catch에서도 이 구분을 써야하기 떄문에 밖으로 빼줌
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, memberId);
+
+            resultSet = preparedStatement.executeQuery(); // select문 쓸때는 executeQuery 사용 -> result set(select의 결과를 담고 있음) 반환
+            if(resultSet.next()){ // resultSet에 한번은 next를 해줘야 실제 데이터가 있는 시작점이 나옴
+                Member member = new Member();
+                member.setMemberId(resultSet.getString("member_id"));
+                member.setMoney(resultSet.getInt("money"));
+                return member;
+            }
+            else{ //resultSet.next()가 false라는 것은 data가 없다는 뜻
+                throw new NoSuchElementException("# member not found memberId = " + memberId);
+            }
+
+        } catch (SQLException e) {
+            log.error("# prepareStatement ERROR - findById()");
+            throw e;
+        }
+        finally {
+            close(connection, preparedStatement, resultSet);
+        }
+
+    }
+
+    private void close(Connection con, Statement statement, ResultSet resultSet){
+        // 생성 역순으로 close
+        // 안닫으면 외부 리소스(tcp/ip)를 쓰는 중인데 계속 연결이 유지되어 버림 - 리소스
+
         // 코드의 안정성을 위해 if 문으로 감싸기
-
-
         if(resultSet != null){
             try {
                 resultSet.close();
@@ -51,13 +85,11 @@ public class MemberRepositoryV0 {
                 log.error("# statement close error");
             }
         }
-        // close를 하는 과정에서 exception이 터져버리면 다음 코드는 실행이 안됨 -> connection.close가 안될 수 있음
-        // try - catch로 잡아서 버리자
         if(statement != null){
             try {
                 statement.close();
             } catch (SQLException e) {
-                log.error("# statement close error"); // 닫을때 예외가 발생한 것이라 틑ㄱ별히 해줄 수 있는 것이 없음
+                log.error("# statement close error");
             }
         }
 
@@ -71,7 +103,7 @@ public class MemberRepositoryV0 {
 
     }
 
-    private static Connection getConnection() { // 여러번 쓸거 같아서 빼둠
+    private static Connection getConnection() {
         return DBConnectionUtil.getConnection();
     }
 }

@@ -1,8 +1,8 @@
 package hello.jdbc.connection;
 
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -16,20 +16,30 @@ import static hello.jdbc.connection.ConnectionConst.*;
 public class ConnectionTest {
     @Test
     void driverManager() throws SQLException {
-        // driver manager로 connect 했기 때문에 매번 신규 connection 생성
         Connection connection1 = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         Connection connection2 = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         log.info("# Connection={}, Class={}", connection1, connection1.getClass());
-        log.info("# Connection={}, Class={}", connection2, connection2.getClass()); // 두 개가 서로 다른 connection인 것 확인
+        log.info("# Connection={}, Class={}", connection2, connection2.getClass());
     }
 
-    // spring이 제공하는 DataSource 인터페이스가 적용이된 driver manager 사용
-    // DataSource 인터페이스는 여러 커넥션 풀과 드라이버를 추상화 해둔 인터페이스
     @Test
     void dataSourceDriverManager() throws SQLException {
-        // driver manager로 connect 했기 때문에 매번 신규 connection 생성
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
         useDataSource(driverManagerDataSource);
+    }
+
+    @Test
+    void dataSourceConnectionPool() throws SQLException, InterruptedException {
+        // connection pooling
+        HikariDataSource hikariDataSource = new HikariDataSource(); // DataSource 인터페이스를 구현하고 있음
+        hikariDataSource.setJdbcUrl(URL);
+        hikariDataSource.setUsername(USERNAME);
+        hikariDataSource.setPassword(PASSWORD);
+        hikariDataSource.setMaximumPoolSize(10);
+        hikariDataSource.setPoolName("MyPool");
+
+        useDataSource(hikariDataSource);
+        Thread.sleep(1000);  // 커넥션 풀에 커넥션이 생성되기까지 잠시 대기 -> [MyPool connection adder](별도의 스레드)라는 스레드의 로그를 확인하기 위함
     }
 
     private void useDataSource(DataSource dataSource) throws SQLException {

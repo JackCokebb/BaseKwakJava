@@ -112,7 +112,7 @@ public class MemberRepositoryV1 {
         }
     }
 
-    private void close(Connection con, Statement stmt, ResultSet rs){
+    private void close(Connection con, Statement stmt, ResultSet rs){ //ConnectionPool(HikariDataSource 사용) -> return
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
         JdbcUtils.closeConnection(con);

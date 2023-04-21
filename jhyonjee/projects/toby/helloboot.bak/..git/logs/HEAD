@@ -1,0 +1,20 @@
+0000000000000000000000000000000000000000 1a03254a2b9562997655c7e5253e5528e1696080 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681199873 +0900	commit (initial): ~ servlet register
+1a03254a2b9562997655c7e5253e5528e1696080 5ef6333bfa94800c86029a0cb14eaed371b29fa2 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681200181 +0900	commit: servlet request handling
+5ef6333bfa94800c86029a0cb14eaed371b29fa2 98ed023bd975622aacc6dfec902e7e34a8dbc7c7 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681201481 +0900	commit: front controller
+98ed023bd975622aacc6dfec902e7e34a8dbc7c7 7b2460b4a6ed692bf4a7379d2952d21bed8b525c jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681202590 +0900	commit: Section 3: hello controller mapping & binding
+7b2460b4a6ed692bf4a7379d2952d21bed8b525c 1db783d604a92f7331bc325d8046fb67384e921b jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681205200 +0900	commit: Section 4: spring container 사용
+1db783d604a92f7331bc325d8046fb67384e921b 8a6084c02d1e7ab36d55fb383c77261351b4ac7f jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681261978 +0900	commit: Section 4: 의존 오브젝트 추가
+8a6084c02d1e7ab36d55fb383c77261351b4ac7f e936674eec99c2b11c74bc784bf18fa496ff0bc5 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681280728 +0900	commit: Section 4: 의존 오브젝트 DI 적용
+e936674eec99c2b11c74bc784bf18fa496ff0bc5 a01e76b3a933a1e36b70ec640773d4dc9fd8757a jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681281910 +0900	commit: Section 4: dispatcher servlet으로 전환
+a01e76b3a933a1e36b70ec640773d4dc9fd8757a 7c14103d09921c542d8f7aba25f9a6bfb7ceb484 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681285980 +0900	commit: Section 4: 애노테이션 매핑 정보 사용
+7c14103d09921c542d8f7aba25f9a6bfb7ceb484 665174bf05004cb720bdcc8018fdf197835e4380 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681286646 +0900	commit: Section 4: 스프링 컨테이너로 통합
+665174bf05004cb720bdcc8018fdf197835e4380 f35ab6bee3849774b48ff17e72af90cd1e95d11c jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681288249 +0900	commit: Section 4: 자바코드 구성 정보 사용
+f35ab6bee3849774b48ff17e72af90cd1e95d11c 71ff381c8b331524813610bd0f735572005f3a7d jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681292050 +0900	commit: Section 4: 자바코드 구성 정보 사용
+71ff381c8b331524813610bd0f735572005f3a7d a1e37dbf0b861b2963aa87cc54c16e5c53a7558c jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681356408 +0900	commit: Section 4: Bean 생명주기 메소드
+a1e37dbf0b861b2963aa87cc54c16e5c53a7558c 0ef848eeced5c3bc1802c1bfa777377dcec06fec jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681363354 +0900	commit: Section 4: SpringBootApplication
+0ef848eeced5c3bc1802c1bfa777377dcec06fec 36464b8ce49b07c1d02258bb28047af6b201a6ea jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681365988 +0900	commit: Section 5: 테스트 코드를 이용한 테스트
+36464b8ce49b07c1d02258bb28047af6b201a6ea 688c679f1e3956cc40689e23382c5eeddcfae690 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681369383 +0900	commit: Section 5: DI와 단위테스트
+688c679f1e3956cc40689e23382c5eeddcfae690 44699ed46941450c499e0f442783a9da108e51b4 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681373229 +0900	commit: Section 5: DI를 이용한 Decorator, Proxy 패턴
+44699ed46941450c499e0f442783a9da108e51b4 4aeeb29aa4b27add1643d8bfda6cd6c03944d423 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681379105 +0900	commit: Section 6: 메타 애너테이션과 합성 애너테이션
+4aeeb29aa4b27add1643d8bfda6cd6c03944d423 a345ff2e1698cf34c9801950401c3a7a90af6a51 jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681434709 +0900	commit: Section 6: 합성 애너테이션 적용
+a345ff2e1698cf34c9801950401c3a7a90af6a51 daabf3c68533db451fca244da7dea8d663bd37eb jhyonjee-MN <jhyonjee-mn@jhyonjee-MNui-MacBookPro.local> 1681460572 +0900	commit: Section 6: 합성 애너테이션 적용

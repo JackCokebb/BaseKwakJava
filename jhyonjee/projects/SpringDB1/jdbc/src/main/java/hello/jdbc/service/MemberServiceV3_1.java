@@ -58,17 +58,18 @@ public class MemberServiceV3_1 {
         memberRepository.update(toId, toMember.getMoney() + money);
     }
 
-    private static void release(Connection connection) {
-        if(connection != null){
-            try{
-                connection.setAutoCommit(true);
-                connection.close();
-            }
-            catch (Exception e){
-                log.info("# error!", e);
-            }
-        }
-    }
+    // 직접 release하지 않음.
+//    private static void release(Connection connection) {
+//        if(connection != null){
+//            try{
+//                connection.setAutoCommit(true);
+//                connection.close();
+//            }
+//            catch (Exception e){
+//                log.info("# error!", e);
+//            }
+//        }
+//    }
 
     private static void validation(Member toMember) {
         if(toMember.getMemberId().equals("ex")){

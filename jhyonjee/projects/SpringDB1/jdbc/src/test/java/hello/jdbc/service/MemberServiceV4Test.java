@@ -4,6 +4,7 @@ import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepository;
 import hello.jdbc.repository.MemberRepositoryV3;
 import hello.jdbc.repository.MemberRepositoryV4_1;
+import hello.jdbc.repository.MemberRepositoryV4_2;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -50,7 +51,8 @@ class MemberServiceV4Test {
 
         @Bean
         MemberRepository memberRepository(){
-            return new MemberRepositoryV4_1(dataSource);
+            //return new MemberRepositoryV4_1(dataSource);
+            return new MemberRepositoryV4_2(dataSource);
 
         }
         @Bean
@@ -60,7 +62,7 @@ class MemberServiceV4Test {
     }
 
     @AfterEach
-    void after() { //throws SQLException {
+    void after() {
         memberRepository.delete(MEMBER_A);
         memberRepository.delete(MEMBER_B);
         memberRepository.delete(MEMBER_EX);
@@ -76,7 +78,7 @@ class MemberServiceV4Test {
 
     @Test
     @DisplayName("정상 이체")
-    void accountTransfer() { //throws SQLException {
+    void accountTransfer() {
         // given
         Member memberA = new Member(MEMBER_A, 10000);
         Member memberB = new Member(MEMBER_B, 10000);
@@ -97,7 +99,7 @@ class MemberServiceV4Test {
 
     @Test
     @DisplayName("이체중 예외 발생")
-    void accountTransferEx() { //throws SQLException {
+    void accountTransferEx() {
         // given
         Member memberA = new Member(MEMBER_A, 10000);
         Member memberEx = new Member(MEMBER_EX, 10000);

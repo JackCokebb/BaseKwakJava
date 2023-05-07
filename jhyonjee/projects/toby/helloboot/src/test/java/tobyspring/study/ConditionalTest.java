@@ -1,42 +1,43 @@
 package tobyspring.study;
 
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConditionalTest {
     @Test
     void conditional(){
-
-
-        // condition이 true인 경우 -> bean 등록이 어떻게 되는지 보자
-
-        // Test 전용 application context
         ApplicationContextRunner applicationContextRunner = new ApplicationContextRunner();
         applicationContextRunner.withUserConfiguration(Config1.class)
-                .run(context -> {   // 이렇게 만들어진 application context를 가지고 테스트 하는 것!
-                    assertThat(context).hasSingleBean(MyBean.class); // 이 타입의 빈이 context안에 존재하는지 test
-                    assertThat(context).hasSingleBean(Config1.class); // 이 타입의 빈이 context안에 존재하는지 test
+                .run(context -> {
+                    assertThat(context).hasSingleBean(MyBean.class);
+                    assertThat(context).hasSingleBean(Config1.class);
                 });
 
-
-        // condition이 false인 경우
         new ApplicationContextRunner().withUserConfiguration(Config2.class)
-                .run(context -> {   // 이렇게 만들어진 application context를 가지고 테스트 하는 것!
-                    assertThat(context).doesNotHaveBean(MyBean.class); // 이 타입의 빈이 context안에 존재하는지 않는지 test
-                    assertThat(context).doesNotHaveBean(Config2.class); // 이 타입의 빈이 context안에 존재하는지 test
+                .run(context -> {
+                    assertThat(context).doesNotHaveBean(MyBean.class);
+                    assertThat(context).doesNotHaveBean(Config2.class);
                 });
-        // NoSuchBeanDefinitionException
-
-
-
     }
-    @Configuration
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
     @Conditional(TrueCondition.class)
+    @interface TrueConditional{}
+
+    @Configuration
+    //@Conditional(TrueCondition.class)  -> 얘를 그냥 애노테이션에 포함시켜보자
+    @TrueConditional
     static class Config1{
         @Bean
         MyBean myBean(){
@@ -44,8 +45,16 @@ public class ConditionalTest {
         }
     }
 
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Conditional(FalseCondition.class)
+    @interface FalseConditional{}
+
+
     @Configuration
-    @Conditional(FalseContion.class)
+    //@Conditional(FalseContion.class)
+    @FalseConditional
     static class Config2{
         @Bean
         MyBean myBean(){
@@ -63,7 +72,7 @@ public class ConditionalTest {
             return true;
         }
     }
-    private static class FalseContion implements Condition {
+    private static class FalseCondition implements Condition {
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
             return false;

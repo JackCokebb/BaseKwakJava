@@ -1,28 +1,35 @@
 package tobyspring.study;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConditionalTest {
     @Test
     void conditional(){
 
 
-        // condition이 true인 경우 -> bean 등록이 어떻게 되는지 보자 
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
-        ac.register(Config1.class);
-        ac.refresh();
+        // condition이 true인 경우 -> bean 등록이 어떻게 되는지 보자
 
-        MyBean bean = ac.getBean(MyBean.class);
+        // Test 전용 application context
+        ApplicationContextRunner applicationContextRunner = new ApplicationContextRunner();
+        applicationContextRunner.withUserConfiguration(Config1.class)
+                .run(context -> {   // 이렇게 만들어진 application context를 가지고 테스트 하는 것!
+                    assertThat(context).hasSingleBean(MyBean.class); // 이 타입의 빈이 context안에 존재하는지 test
+                    assertThat(context).hasSingleBean(Config1.class); // 이 타입의 빈이 context안에 존재하는지 test
+                });
+
 
         // condition이 false인 경우
-        AnnotationConfigApplicationContext ac2 = new AnnotationConfigApplicationContext();
-        ac2.register(Config2.class);
-        ac2.refresh();
-
-        MyBean bean2 = ac2.getBean(MyBean.class);
+        new ApplicationContextRunner().withUserConfiguration(Config2.class)
+                .run(context -> {   // 이렇게 만들어진 application context를 가지고 테스트 하는 것!
+                    assertThat(context).doesNotHaveBean(MyBean.class); // 이 타입의 빈이 context안에 존재하는지 않는지 test
+                    assertThat(context).doesNotHaveBean(Config2.class); // 이 타입의 빈이 context안에 존재하는지 test
+                });
         // NoSuchBeanDefinitionException
 
 
